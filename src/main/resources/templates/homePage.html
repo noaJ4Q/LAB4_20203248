@@ -75,21 +75,34 @@
 
             <div class="row">
                 <div class="col-sm-6 mt-2 ml-2 mb-4" th:each="vuelo: ${vuelos}">
-                    <div class="card text-center border-white">
-                        <div class="card-body">
-                            <h5 class="card-title mt-3" th:text="${vuelo.origen}+' - '+${vuelo.destino}">Lima - Bogota <span class="text-danger"><b th:text="'$'+${vuelo.precio}">($120.00)</b></span>
-                            </h5>
-                            <p class="text-success"><b th:text="${vuelo.aerolinea.nombre}+' - '+${vuelo.aerolinea.codigo}">Star Peru - 2I</b></p>
-                            <p th:text="${vuelo.descripcion}">Definitivamente el turismo en Bogotá en más que Monserrate y la Candelaria, hay muchas
-                                excursiones por
-                                senderos
-                                mágicos que puedes realizar. Estas actividades también se conocen como: senderismo,
-                                excursionismo,
-                                caminata, montañismo,
-                                hiking o trekking.</p>
-                            <button class="btn btn-success btn-lg btn-block" data-bs-toggle="modal" data-bs-target="#exampleModal">Comprar</button>
+                    <form method="post" th:action="@{/reservar}">
+                        <input type="hidden" name="precio_total" th:value="${vuelo.precio}">
+                        <input type="hidden" name="user_iduser" th:value="${iduser}">
+                        <input type="hidden" name="vuelo_idvuelo" th:value="${vuelo.idvuelo}">
+
+                        <div class="card text-center border-white">
+                            <div class="card-body">
+                                <h5 class="card-title mt-3" th:text="${vuelo.origen}+' - '+${vuelo.destino}">Lima -
+                                    Bogota <span class="text-danger"><b
+                                            th:text="'$'+${vuelo.precio}">($120.00)</b></span>
+                                </h5>
+                                <p class="text-success"><b
+                                        th:text="${vuelo.aerolinea.nombre}+' - '+${vuelo.aerolinea.codigo}">Star Peru -
+                                    2I</b></p>
+                                <p th:text="${vuelo.descripcion}">Definitivamente el turismo en Bogotá en más que
+                                    Monserrate y la Candelaria, hay muchas
+                                    excursiones por
+                                    senderos
+                                    mágicos que puedes realizar. Estas actividades también se conocen como: senderismo,
+                                    excursionismo,
+                                    caminata, montañismo,
+                                    hiking o trekking.</p>
+                                <button type="submit" class="btn btn-success btn-lg btn-block" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">Comprar
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
 
@@ -106,7 +119,7 @@
                         Se realizó con éxito su reserva
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success">Entendido</button>
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Entendido</button>
                     </div>
                 </div>
             </div>
@@ -121,7 +134,10 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
                 integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
                 crossorigin="anonymous"></script>
-
+        <script th:if="${msg != null}">
+            $(document).ready(function (){
+               $("#exampleModal").modal('show');
+            });
+        </script>
     </body>
-
 </html>
