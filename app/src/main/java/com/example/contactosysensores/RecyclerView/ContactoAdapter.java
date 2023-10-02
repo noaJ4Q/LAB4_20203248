@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,12 +21,20 @@ import java.util.List;
 public class ContactoAdapter extends RecyclerView.Adapter<ContactoAdapter.RootViewHolder>{
     private List<Contacto> contactoList;
     private Context context;
+    private OnItemClickListener listener;
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnClickListener(OnItemClickListener clickListener){
+        listener = clickListener;
+    }
 
     @NonNull
     @Override
     public RootViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.rv_contacto, parent, false);
-        return new RootViewHolder(view);
+        return new RootViewHolder(view, listener);
     }
 
     @Override
@@ -54,10 +63,14 @@ public class ContactoAdapter extends RecyclerView.Adapter<ContactoAdapter.RootVi
     }
 
     public class RootViewHolder extends RecyclerView.ViewHolder{
-        Root root;
-        public RootViewHolder(@NonNull View itemView) {
+        Contacto contacto;
+        ContactoAdapter contactoAdapter;
+        public RootViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
-
+            Button buttonQuitar = itemView.findViewById(R.id.buttonQuitar);
+            buttonQuitar.setOnClickListener(view -> {
+                listener.onItemClick(getAdapterPosition());
+            });
         }
     }
 

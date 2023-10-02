@@ -13,7 +13,7 @@
         android:fontFamily="monospace"
         android:letterSpacing="0"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:paddingBottom="28dp"
         android:shadowColor="@color/black"
         android:shadowRadius="20"
         android:text="Acelerómetro!"
@@ -23,6 +23,7 @@
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAcelerometro"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal" />

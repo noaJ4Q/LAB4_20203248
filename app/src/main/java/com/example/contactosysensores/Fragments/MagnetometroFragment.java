@@ -42,22 +42,29 @@ public class MagnetometroFragment extends Fragment {
 
         // nav
         NavController navController = NavHostFragment.findNavController(MagnetometroFragment.this);
-        Button button = getActivity().findViewById(R.id.buttonIr);
-        button.setOnClickListener(view -> {
+        Button buttonIr = getActivity().findViewById(R.id.buttonIr);
+        buttonIr.setOnClickListener(view -> {
             navController.navigate(R.id.action_magnetometroFragment_to_acelerometroFragment);
         });
         if (navController.getCurrentDestination().getId() == R.id.magnetometroFragment) {
-            button.setText("Ir a acelerómetro");
+            buttonIr.setText("Ir a acelerómetro");
         }
 
         // api
+        crearRetrofit();
         Button buttonAnadir = getActivity().findViewById(R.id.buttonAnadir);
         buttonAnadir.setOnClickListener(view -> {
+            buttonIr.setEnabled(false);
+            buttonAnadir.setEnabled(false);
             cargarContacto();
         });
 
         contactoAdapter.setContext(getContext());
         contactoAdapter.setContactoList(magnetometroContactos);
+        contactoAdapter.setOnClickListener(position -> {
+            magnetometroContactos.remove(position);
+            contactoAdapter.notifyItemRemoved(position);
+        });
 
         binding.rvMagnetometro.setAdapter(contactoAdapter);
         binding.rvMagnetometro.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -82,6 +89,9 @@ public class MagnetometroFragment extends Fragment {
                     Contacto contacto = root.getResults().get(0);
                     magnetometroContactos.add(contacto);
                     contactoAdapter.notifyDataSetChanged();
+
+                    getActivity().findViewById(R.id.buttonIr).setEnabled(true);
+                    getActivity().findViewById(R.id.buttonAnadir).setEnabled(true);
                 }
             }
 
